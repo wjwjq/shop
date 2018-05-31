@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>upload</title>
+  </head>
+
+  <body>
+    <p>csrf:
+      <%= csrf %>
+    </p>
+    <form enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrf %>">
+      <input type="file" name="files" value="" placeholder="请选择文件" multiple="true">
+      <br>
+      <br>
+      <button type="submit" id="submit">提交</button>
+    </form>
+
+
+    <script>
+      window.onload = function () {
+        document.getElementById('submit').addEventListener('click', function (e) {
+          e.preventDefault();
+          var formData = new FormData();
+          var fileField = document.querySelector("input[type=file]");
+
+          formData.append('file', fileField.files[0]);
+
+          fetch('/upload', {
+            method: 'POST',
+            body: formData, // must match 'Content-Type' header
+            cache: 'no-cache',
+            credentials: 'include',
+            headers: {
+              // 'content-type': 'multipart/form-data',
+              "csrf-token": document.querySelector('input[name=_csrf]').value
+            }
+          })
+            .then(response => response.json())
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => console.error(err))
+        })
+
+      }
+    </script>
+  </body>
+
+</html>
