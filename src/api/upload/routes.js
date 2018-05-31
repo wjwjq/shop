@@ -19,27 +19,21 @@ async function post(ctx) {
 
   for (let key in files) {
     const file = files[key];
-    if (Array.isArray(file)) {
-      for (let i = 0; i < file.length; i++) {
-        saveFile(file[i]);
-      }
-    } else {
-      saveFile(file);
-    }
-  }
-
-  function saveFile(file) {
     const filePath = path.join(tmpdir, file.name);
     const reader = fs.createReadStream(file.path);
     const writer = fs.createWriteStream(filePath);
     reader.pipe(writer);
     filePaths.push(filePath.replace('public\\', ''));
+    writer.on('finish', () => {
+      console.log(2);
+    });
   }
 
   ctx.body = {
     message: '上传成功',
     data: filePaths
   };
+  console.log(1);
 }
 
 function uid() {
