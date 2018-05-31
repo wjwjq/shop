@@ -29,7 +29,7 @@ async function errorHandler(ctx, next) {
 
 async function setCookies(ctx, next) {
   await next();
-  ctx.cookies.set('csrf-token', ctx.csrf);
+  ctx.cookies.set('x-csrf-token', ctx.csrf);
 }
 
 app.keys = ['session key'];

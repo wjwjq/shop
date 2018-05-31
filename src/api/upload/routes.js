@@ -11,7 +11,6 @@ async function get(ctx) {
 }
 
 async function post(ctx, next) {
-  console.log(ctx.request.body);
   const tmpdir = path.join('public/upload/', uid());
   await fs.mkdir(tmpdir);
   ctx.body = await saveFile(ctx, next, tmpdir);
@@ -28,6 +27,7 @@ function saveFile(ctx, next, tmpdir) {
       const writer = fs.createWriteStream(filePath);
       const result = reader.pipe(writer);
       filePaths.push(filePath.replace('public\\', ''));
+
       result.on('finish', () => {
         resolve({
           message: '上传成功',
