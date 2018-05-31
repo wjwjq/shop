@@ -1,7 +1,7 @@
 const path = require('path');
 
 const Koa = require('koa');
-const koaBody = require('koa-better-body');
+const koaBody = require('koa-body');
 const logger = require('koa-logger');
 const session = require('koa-session');
 const CSRF = require('koa-csrf');
