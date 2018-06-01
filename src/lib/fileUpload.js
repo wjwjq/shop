@@ -3,6 +3,7 @@ const fs = require('fs-extra');
 
 /**
  * 文件上传 支持多文件上传 并返回文件保存路径
+ * 默认上传路径 public/upload
  *
  * @param {Object} ctx
  * @param {Function} next
@@ -11,23 +12,36 @@ const fs = require('fs-extra');
  *  Promise [filepaths]
  */
 async function fileUpload(ctx, next, savedFileName = '') {
-  const tmpdir = path.join(`public/upload/${savedFileName}`, uid());
-  await fs.mkdir(tmpdir);
-
-  const filePathsPromises = [];
-  const files = ctx.request.body.files || {};
-
-  for (let key in files) {
-    if (Array.isArray(files[key])) {
-      for (let i = 0; i < files[key].length; i++) {
-        filePathsPromises.push(saveSingleFile(files[key][i], tmpdir));
-      }
-    } else {
-      filePathsPromises.push(saveSingleFile(files[key], tmpdir));
+  try {
+    if (!fs.existsSync(path.join(`public`))) {
+      await fs.mkdir(path.join(`public`));
     }
-  }
 
-  return Promise.all(filePathsPromises);
+    if (!fs.existsSync(path.join(`public/upload`))) {
+      await fs.mkdir(path.join(`public/upload`));
+    }
+
+    const tmpdir = path.join(`public/upload/${savedFileName}`, uid());
+    await fs.mkdir(tmpdir);
+
+    const filePathsPromises = [];
+    const files = ctx.request.body.files || {};
+
+    for (let key in files) {
+      if (Array.isArray(files[key])) {
+        for (let i = 0; i < files[key].length; i++) {
+          filePathsPromises.push(saveSingleFile(files[key][i], tmpdir));
+        }
+      } else {
+        filePathsPromises.push(saveSingleFile(files[key], tmpdir));
+      }
+    }
+
+    return Promise.all(filePathsPromises);
+  } catch (err) {
+    console.error('fileUpload error: ', err);
+    Promise.reject(err);
+  }
 };
 
 /**
