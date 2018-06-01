@@ -7,8 +7,9 @@ const session = require('koa-session');
 const CSRF = require('koa-csrf');
 const views = require('koa-views');
 const serve = require('koa-static');
+const compress = require('koa-compress');
 
-const router = require('./src/router');
+const router = require('./src/route');
 const database = require('./src/database');
 const responseTime = require('koa-response-time');
 
@@ -34,20 +35,26 @@ async function setCookies(ctx, next) {
 
 app.keys = ['session key'];
 
-app.use(responseTime());
+app.use(compress({
+  filter: function (contentType) {
+    return true;
+  },
+  threshold: 2048,
+  flush: require('zlib').Z_SYNC_FLUSH
+}));
 
+app.use(responseTime());
 app.use(logger());
 app.use(session(app));
 app.use(koaBody({ multipart: true }));
+// app.use(setCookies);
 // csrf 需要 session
-app.use(setCookies);
 app.use(new CSRF());
-
 app.use(errorHandler);
 app.use(serve(path.join(__dirname, './public')));
 app.use(views(path.join(__dirname, 'src/views'), { extension: 'ejs' }));
 app.use(router.routes());
-app.use(ctx => { ctx.type = 'json'; });
+app.use(ctx => { ctx.type = 'json'; ctx.compress = true; });
 
 app.on('error', err => {
   console.error('server error', err);
