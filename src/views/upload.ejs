@@ -27,8 +27,10 @@
           e.preventDefault();
           var formData = new FormData();
           var fileField = document.querySelector("input[type=file]");
-
-          formData.append('file', fileField.files[0]);
+          
+          for(var key in fileField.files) {
+            formData.append('file[]', fileField.files[key]);
+          }
 
           fetch('/upload', {
             method: 'POST',
@@ -42,9 +44,11 @@
           })
             .then(response => response.json())
             .then(res => {
-              const img = document.createElement('img');
-              img.src = res.data[0];
-              document.body.appendChild(img);
+              res.data.map(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                document.body.appendChild(img);
+              })
             })
             .catch(err => console.error(err))
         })
