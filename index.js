@@ -41,7 +41,7 @@ app.use(session(app));
 app.use(koaBody({ multipart: true }));
 // csrf 需要 session
 app.use(setCookies);
-// app.use(new CSRF());
+app.use(new CSRF());
 
 app.use(errorHandler);
 app.use(serve(path.join(__dirname, './public')));
