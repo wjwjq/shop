@@ -20,10 +20,10 @@ async function fileUpload(ctx, next, savedFileName = '') {
   for (let key in files) {
     if (Array.isArray(files[key])) {
       for (let i = 0; i < files[key].length; i++) {
-        filePathsPromises.push(saveSignleFile(files[key][i], tmpdir));
+        filePathsPromises.push(saveSingleFile(files[key][i], tmpdir));
       }
     } else {
-      filePathsPromises.push(saveSignleFile(files[key], tmpdir));
+      filePathsPromises.push(saveSingleFile(files[key], tmpdir));
     }
   }
 
@@ -38,7 +38,7 @@ async function fileUpload(ctx, next, savedFileName = '') {
  * @returns
  *  Promise 保存后的文件存储路径
  */
-function saveSignleFile(file, tmpdir) {
+function saveSingleFile(file, tmpdir) {
   return new Promise((resolve, reject) => {
     const filePath = path.join(tmpdir, file.name);
     const reader = fs.createReadStream(file.path);
