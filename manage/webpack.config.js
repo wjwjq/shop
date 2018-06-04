@@ -190,14 +190,6 @@ module.exports = merge(commonConfig, isProduction ? {
       noInfo: false,
       open: true,
       clientLogLevel: "none",
-      stats: {
-        cached: false,
-        cachedAssets: false,
-        chunks: false,
-        chunkModules: false,
-        chunkOrigins: false,
-        modules: false
-      },
       watchOptions: {
         poll: true
       }
