@@ -11,13 +11,16 @@ const store: StoreState = {
   languageName: 'TypeScript'
 };
 
-export default function enthusiasm(state: StoreState = store, action: EnthusiasmAction): StoreState {
-  switch (action.type) {
-    case INCREMENT_ENTHUSIASM:
-      return { ...state, enthusiasmLevel: state.enthusiasmLevel + 1 };
-    case DECREMENT_ENTHUSIASM:
-      return { ...state, enthusiasmLevel: Math.max(1, state.enthusiasmLevel - 1) };
-    default:
-      return state;
+const handlers = {
+  [INCREMENT_ENTHUSIASM](state: StoreState) {
+    return { ...state, enthusiasmLevel: state.enthusiasmLevel + 1 };
+  },
+
+  [DECREMENT_ENTHUSIASM](state: StoreState) {
+    return { ...state, enthusiasmLevel: Math.max(1, state.enthusiasmLevel - 1) };
   }
+};
+
+export default function(state: StoreState = store, action: EnthusiasmAction): StoreState {
+  return handlers[action.type] ?  handlers[action.type](state) : state;
 }

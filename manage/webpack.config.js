@@ -63,14 +63,7 @@ const commonConfig = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
-        ],
+        use: ['style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }, 'postcss-loader'],
       },
       {
         test: /\.(png|jpg|gif|jpeg|svg)$/,

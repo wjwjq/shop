@@ -15,6 +15,9 @@
     "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/history": "^4.6.2",
     "@types/jasmine": "^2.8.8",
+    "@types/react": "^16.3.16",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-redux": "^6.0.1",
     "@types/react-router-dom": "^4.2.7",
     "@types/react-router-redux": "^5.0.15",
     "@types/redux-logger": "^3.0.6",
@@ -29,6 +32,8 @@
     "jest": "^23.1.0",
     "jest-cli": "^23.1.0",
     "jest-config": "^23.1.0",
+    "postcss-loader": "^2.1.5",
+    "precss": "^3.1.2",
     "react-hot-loader": "^4.2.0",
     "style-loader": "^0.21.0",
     "tslib": "^1.9.2",
@@ -44,9 +49,6 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "@types/react": "^16.3.16",
-    "@types/react-dom": "^16.0.5",
-    "@types/react-redux": "^6.0.1",
     "antd": "^3.6.1",
     "history": "^4.7.2",
     "react": "^16.4.0",
