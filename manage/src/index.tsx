@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import App from './components/App';
+
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import store, { history } from './redux/store/index';
+
+import Routes from './Routes/index';
 
 const rootEl = document.getElementById('root');
 
 render(
   <AppContainer>
-    <App message="World" />
+    <Provider store={store}>
+        <Routes />
+    </Provider>
   </AppContainer>,
   rootEl
 );
@@ -16,12 +23,12 @@ render(
 declare let module: { hot: any };
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
-    const NewApp = require('./components/App').default;
-
+  module.hot.accept('./Routes/index', () => {
     render(
       <AppContainer>
-        <NewApp />
+        <Provider store={store}>
+            <Routes />
+        </Provider>
       </AppContainer>,
       rootEl
     );

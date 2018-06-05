@@ -3,7 +3,6 @@
     "enable": true
   },
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "module": "ESNext",
     "noImplicitAny": true,
@@ -14,7 +13,17 @@
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "traceResolution": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "node",
+    "outDir": "build/dist",
+    "lib": ["es6", "dom"],
+    "rootDir": "src",
+    "noImplicitReturns": true,
+    "noImplicitThis": false,
+    "strictNullChecks": true,
+    "types": [
+      "jasmine"
+    ]
   },
   "include": [
     "src/**/*"

@@ -52,8 +52,7 @@ const commonConfig = {
   resolve: {
     // 配置目录别名
     alias: {},
-    // 引用js、vue、less、css文件可以省略后缀名
-    extensions: ['.js', '.json', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
 
   module: {
