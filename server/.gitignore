@@ -1,2 +1,3 @@
 node_modules
-publoc/upload/*
+public/upload/*
+public/*
