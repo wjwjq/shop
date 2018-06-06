@@ -30,6 +30,28 @@ const PUBLIC_PATH = 'test/'; //静态资源引用路径
 
 const PROXY_URI = "http://localhost:3000"; //反向代理地址
 
+//抽离打包的模块 使用CDN加载
+const externals = [{
+  module: 'react',
+  entry: 'https://cdn.bootcss.com/react/16.4.0/umd/react.production.min.js',
+  global: 'React'
+},
+{
+  module: 'react-dom',
+  entry: 'https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.production.min.js',
+  global: 'ReactDOM'
+},
+{
+  module: 'react-router-dom',
+  entry: 'https://cdn.bootcss.com/react-router-dom/4.3.0-rc.3/react-router-dom.min.js',
+  global: 'ReactRouterDOM'
+},
+{
+  module: 'axios',
+  entry: 'https://cdn.bootcss.com/axios/0.18.0/axios.min.js',
+  global: 'axios'
+}];
+
 const commonConfig = {
   //页面入口文件配置
   entry: {
@@ -213,7 +235,6 @@ const commonConfig = {
   ]
 }
 
-
 module.exports = merge(commonConfig, isProduction ? {
   devtool: 'none',
 
@@ -235,38 +256,15 @@ module.exports = merge(commonConfig, isProduction ? {
   },
 
 
-  externals: {
-    "react": "React",
-    "react-dom": 'ReactDOM',
-    "react-router-dom": "ReactRouterDOM",
-    "axios": "axios"
-  },
+  externals: externals.reduce((prev, item) => {
+    prev[item.module] = item.global;
+    return prev;
+  }, {}),
 
   //插件项
   plugins: [
     new HtmlWebpackExternalsPlugin({
-      externals: [
-        {
-          module: 'react',
-          entry: 'https://cdn.bootcss.com/react/16.4.0/umd/react.production.min.js',
-          global: 'React'
-        },
-        {
-          module: 'react-dom',
-          entry: 'https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.production.min.js',
-          global: 'ReactDOM'
-        },
-        {
-          module: 'react-router-dom',
-          entry: 'https://cdn.bootcss.com/react-router-dom/4.3.0-rc.3/react-router-dom.min.js',
-          global: 'ReactRouterDOM'
-        },
-        {
-          module: 'axios',
-          entry: 'https://cdn.bootcss.com/axios/0.18.0/axios.min.js',
-          global: 'axios'
-        },
-      ]
+      externals
     }),
 
     //CSS文件单独打包
