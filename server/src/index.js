@@ -15,7 +15,7 @@ const database = require('./database');
 
 const app = new Koa();
 const wwwSubdomain = composer(require('./domains'));
-const testSubdomain = composer(require('./domains/test'));
+const manageSubdomain = composer(require('./domains/manage'));
 
 app.keys = ['session key'];
 
@@ -84,8 +84,8 @@ function composer(app) {
 
 async function vhost(ctx, next) {
   console.log(`Loading from domain: ${ctx.hostname} `);
-  if (ctx.hostname === 'test.com') {
-    return await testSubdomain.apply(this, [ctx, next]);
+  if (ctx.hostname === 'manage.shop.com') {
+    return await manageSubdomain.apply(this, [ctx, next]);
   } else {
     return await wwwSubdomain.apply(this, [ctx, next]);
   }

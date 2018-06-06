@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Hello.css';
+import * as styles from './Hello.less';
 
 export interface Props {
   name: string;
@@ -14,13 +14,13 @@ function Hello({ name, enthusiasmLevel = 1, onIncrement, onDecrement }: Props) {
   }
 
   return (
-    <div className="hello">
+    <div className={styles.hello}>
       <div className="greeting">
         Hello {name + getExclamationMarks(enthusiasmLevel)}
       </div>
       <div>
-        <button onClick={onDecrement}>-</button>
-        <button onClick={onIncrement}>+</button>
+        <button className={styles.button} onClick={onDecrement}>-</button>
+        <button className={styles.button} onClick={onIncrement}>+</button>
       </div>
     </div>
   );

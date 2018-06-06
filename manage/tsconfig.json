@@ -21,6 +21,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "strictNullChecks": true,
+    "esModuleInterop": true,
     "types": [
       "jasmine"
     ]

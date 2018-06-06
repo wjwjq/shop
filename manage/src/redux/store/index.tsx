@@ -15,31 +15,30 @@ const historyMiddleware = routerMiddleware(history);
 
 const appReducer = combineReducers({
   ...reducers,
-  routing: routerReducer
+  router: routerReducer
 } as any);
 
 declare let window: { __REDUX_DEVTOOLS_EXTENSION__: any };
+declare let process: any;
 
 let middlewares;
-// if (process.env.NODE_ENV !== 'production') {
-
-// } else {
-//   middlewares = applyMiddleware(
-//     historyMiddleware,
-//     promiseMiddleware(),
-//     thunkMiddleware
-//   );
-// }
-
-middlewares = compose(
-  applyMiddleware(
+if (process.env.NODE_ENV === 'development') {
+  middlewares = compose(
+    applyMiddleware(
+      historyMiddleware,
+      promiseMiddleware(),
+      thunkMiddleware,
+      createLogger()
+    ),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+} else {
+  middlewares = applyMiddleware(
     historyMiddleware,
     promiseMiddleware(),
-    thunkMiddleware,
-    createLogger()
-  ),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+    thunkMiddleware
+  );
+}
 
 const store = createStore(appReducer, middlewares);
 

@@ -7,12 +7,10 @@ import Foo from '../views/Foo';
 
 const Routes = () => {
   return (
-    <BrowserRouter>
       <Switch>
         <Route path="/foo" component={Foo} />
         <Route path="/" component={App} />
       </Switch>
-    </BrowserRouter>
   );
 };
 

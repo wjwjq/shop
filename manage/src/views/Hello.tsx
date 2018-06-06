@@ -7,10 +7,10 @@ interface State {
   hello: StoreState;
 }
 
-export function mapStateToProps({ hello }: State) {
+export function mapStateToProps({ hello: {enthusiasmLevel, languageName} }: State) {
   return {
-    ...hello,
-    name: hello.languageName
+    enthusiasmLevel,
+    name: languageName
   };
 }
 
