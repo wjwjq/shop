@@ -6,7 +6,6 @@ import CSSModules from 'react-css-modules';
 import { Layout, Icon } from 'antd';
 const { Header, Sider, Content } = Layout;
 
-import Hello from '../Hello';
 import Nav from '../Nav';
 
 import * as styles from './style.less';
@@ -28,7 +27,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Layout styleName="main-layout" >
 
