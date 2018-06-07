@@ -3,26 +3,36 @@
     "enable": true
   },
   "compilerOptions": {
+    "rootDir": "src",
     "jsx": "react",
     "module": "ESNext",
     "noImplicitAny": true,
     "sourceMap": true,
     "target": "es5",
     "allowJs": true,
+    "declaration": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "traceResolution": true,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "outDir": "build/dist",
-    "lib": ["es6", "dom"],
-    "rootDir": "src",
+    "lib": [
+      "es6",
+      "dom",
+      "scripthost"
+    ],
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "removeComments": false,
     "types": [
+      "node",
+      "react",
+      "react-dom",
       "jasmine"
     ]
   },

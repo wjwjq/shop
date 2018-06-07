@@ -6,6 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //生成index.html
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin; //包大小分析
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin'); //生成external
+const tsImportPluginFactory = require('ts-import-plugin'); //antd 按需加载
 
 const isProduction = process.argv.find(item => ~item.indexOf("--mode")).split("=").pop().toLowerCase() === "production";
 
@@ -20,8 +21,8 @@ const TEMPLATE_PATH = path.resolve(APP_PATH, "index.html");
 // const STORE_PATH = path.resolve(APP_PATH, "store");
 // const UTILS_PATH = path.resolve(APP_PATH, "lib/utils");
 // const API_PATH = path.resolve(APP_PATH, "lib/api");
-const IMAGES_PATH = path.resolve(APP_PATH, "assets/images"); //图片目录
 // const STYLES_PATH = path.resolve(APP_PATH, "assets/styles"); //样式目录
+const IMAGES_PATH = path.resolve(APP_PATH, "assets/images"); //图片目录
 const FAVICON_PATH = path.resolve(IMAGES_PATH, "favicon.ico"); //favicon目录
 
 const ASSETS_SUB_PATH = "static"; //静态资源目录 image css js fonts etc..
@@ -55,10 +56,6 @@ const externals = [{
 const commonConfig = {
   //页面入口文件配置
   entry: {
-    commons: [
-      "react",
-      "react-dom"
-    ],
     app: [
       APP_FILE
     ]
@@ -84,7 +81,21 @@ const commonConfig = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        use: ["awesome-typescript-loader", "tslint-loader"]
+        use: [
+          {
+            loader: "awesome-typescript-loader",
+            options: {
+              getCustomTransformers: () => ({
+                before: [ tsImportPluginFactory({
+                  libraryDirectory: 'es',
+                  libraryName: 'antd',
+                  style: 'css'
+                })]
+              })
+            }
+          }, 
+          "tslint-loader"
+        ]
       },
       {
         test: /\.css$/,
@@ -93,11 +104,12 @@ const commonConfig = {
           ? ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [{
-              loader: 'css-loader',
+              loader: 'typings-for-css-modules-loader',
               options: {
                 importLoaders: 1,
                 modules: true,
                 camelCase: true,
+                namedExport: true,
                 localIdentName: '[name]__[local]--[hash:base64:5]',
                 sourceMap: false
               }
@@ -107,11 +119,12 @@ const commonConfig = {
           : [
             'style-loader',
             {
-              loader: 'css-loader',
+              loader: 'typings-for-css-modules-loader',
               options: {
                 importLoaders: 1,
                 modules: true,
                 camelCase: true,
+                namedExport: true,
                 localIdentName: '[name]__[local]--[hash:base64:5]',
                 sourceMap: true
               }
@@ -126,11 +139,12 @@ const commonConfig = {
           ? ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [{
-              loader: 'css-loader',
+              loader: 'typings-for-css-modules-loader',
               options: {
                 importLoaders: 1,
                 modules: true,
                 camelCase: true,
+                namedExport: true,
                 localIdentName: '[name]__[local]--[hash:base64:5]',
                 sourceMap: false
               }
@@ -141,11 +155,12 @@ const commonConfig = {
           : [
             'style-loader',
             {
-              loader: 'css-loader',
+              loader: 'typings-for-css-modules-loader',
               options: {
                 importLoaders: 1,
                 modules: true,
                 camelCase: true,
+                namedExport: true,
                 localIdentName: '[name]__[local]--[hash:base64:5]',
                 sourceMap: true
               }

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as styles from './Hello.less';
+import CSSModules from 'react-css-modules';
+import * as styles from './style.less';
 
 export interface Props {
   name: string;
@@ -26,7 +27,7 @@ function Hello({ name, enthusiasmLevel = 1, onIncrement, onDecrement }: Props) {
   );
 }
 
-export default Hello;
+export default CSSModules(Hello, styles);
 
 // helpers
 
