@@ -2,15 +2,17 @@ const path = require('path');
 const Koa = require('koa');
 const send = require('koa-send');
 const router = require('koa-router')();
-// koa app
 
 const app = new Koa();
+const user = require('../api/commons/users/routes');
+const goods = require('../api/manage/goods/routes');
 
-router.get('*', sendIndex);
+router.use('/api/user', user);
+router.use('/api/goods', goods);
 
-async function sendIndex(ctx) {
-  await send(ctx, ctx.path, { root: path.resolve('public/test/index.html') });
-}
+router.get('*', async ctx => {
+  await send(ctx, ctx.path, { root: path.resolve('public/manage/index.html') });
+});
 
 app.use(router.routes());
 

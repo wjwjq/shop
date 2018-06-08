@@ -29,7 +29,7 @@ const ASSETS_SUB_PATH = "static"; //静态资源目录 image css js fonts etc..
 
 const PUBLIC_PATH = 'test/'; //静态资源引用路径
 
-const PROXY_URI = "http://localhost:3000"; //反向代理地址
+const PROXY_URI = "http://manage.shop.com:3000"; //反向代理地址
 
 //抽离打包的模块 使用CDN加载
 const externals = [{

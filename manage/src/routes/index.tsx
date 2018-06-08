@@ -6,12 +6,20 @@ import Loadable from 'react-loadable';
 import App from '../views/App/';
 
 const Foo = Loadable({
-  loader: () => import(/* webpackChunkName: Foo */ '../views/Foo'),
+  /* webpackChunkName: Foo */
+  loader: () => import('../views/Foo'),
   loading: PageLoading
 });
 
 const Hello = Loadable({
-  loader: () => import(/* webpackChunkName: Hello */ '../views/Hello'),
+  /* webpackChunkName: Hello */
+  loader: () => import('../views/Hello'),
+  loading: PageLoading
+});
+
+const UserManage = Loadable({
+  /* webpackChunkName: UserManage */
+  loader: () => import('../views/UserManage'),
   loading: PageLoading
 });
 
@@ -19,8 +27,9 @@ const Routes = () => {
   return (
     <App>
       <Switch>
-        <Route path="/user-manage" component={Foo} />
+        <Route path="/user-manage" component={UserManage} />
         <Route path="/goods-manage" component={Hello} />
+        <Route path="/foo" component={Foo} />
       </Switch>
     </App>
   );

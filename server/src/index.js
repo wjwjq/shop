@@ -10,12 +10,15 @@ const views = require('koa-views');
 const serve = require('koa-static');
 const compress = require('koa-compress');
 const responseTime = require('koa-response-time');
+const cors = require('@koa/cors');
+const mount = require('koa-mount');
 
 const database = require('./database');
 
 const app = new Koa();
 const wwwSubdomain = composer(require('./domains'));
 const manageSubdomain = composer(require('./domains/manage'));
+const Ccsrf = new CSRF();
 
 app.keys = ['session key'];
 
@@ -29,18 +32,17 @@ app.use(compress({
 
 app.use(responseTime());
 
-app.use(logger());
+// app.use(logger());
 app.use(session(app));
+app.use(mount('/api', cors()));
 app.use(koaBody({ multipart: true }));
 // app.use(setCookies);
 // csrf 需要 session
-app.use(new CSRF());
+app.use(setCSRF);
 app.use(errorHandler);
 app.use(serve(path.join(__dirname, '../public')));
 app.use(views(path.join(__dirname, './views'), { extension: 'ejs' }));
-
 app.use(vhost);
-
 app.use(ctx => { ctx.type = 'json'; ctx.compress = true; });
 
 app.on('error', err => {
@@ -71,6 +73,18 @@ async function errorHandler(ctx, next) {
     ctx.app.emit('error', err, ctx);
   }
 };
+
+async function setCSRF(ctx, next) {
+  try {
+    if (/^\/api\/.+/ig.test(ctx.path)) {
+      await next();
+    } else {
+      await Ccsrf(ctx, next);
+    }
+  } catch (err) {
+    ctx.app.emit('error', err, ctx);
+  }
+}
 
 async function setCookies(ctx, next) {
   await next();

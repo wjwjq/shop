@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const fileUpload = require('../../lib/fileUpload');
+const fileUpload = require('../../../lib/fileUpload');
 
 router
   .get('/', get)
