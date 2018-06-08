@@ -5,10 +5,8 @@ router
   .get('/', get)
   .post('/:id', post)
   .put('/:id', put)
-  .delete('/:id', del)
-  .delete('/', del)
-  .del('/', del)
-  .del('/:id', del);
+  .del('/:id', del)
+  .del('/', del);
 
 const users = [];
 
