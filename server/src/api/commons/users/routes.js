@@ -12,7 +12,7 @@ const users = [];
 
 for (let i = 0; i < 46; i++) {
   users.push({
-    key: i,
+    _id: `Edward King ${i}`,
     name: `Edward King ${i}`,
     age: 32,
     address: `London, Park Lane no. ${i}`
@@ -57,7 +57,7 @@ async function del(ctx) {
   // const data =  JSON.parse(ctx.request.query.id);
 
   // ctx.body = { status: 200, data: JSON.parse(ctx.request.query.id), csrf: ctx.csrf };
-  ctx.body = 111;
+  ctx.body = { status: 401, data: data, message: '删除失败', csrf: ctx.csrf };
 }
 
 module.exports = router.routes();

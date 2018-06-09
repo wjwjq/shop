@@ -32,7 +32,7 @@ app.use(compress({
 
 app.use(responseTime());
 
-// app.use(logger());
+app.use(logger());
 app.use(session(app));
 app.use(mount('/api', cors()));
 app.use(koaBody({ multipart: true }));
