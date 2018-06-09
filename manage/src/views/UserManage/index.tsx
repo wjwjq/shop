@@ -30,7 +30,7 @@ const api = '/api/user';
 export default class UserManage extends React.Component {
   render() {
     return (
-      <UserTable columns={columns} api={api} />
+      <UserTable columns={columns} api={api} rowKey="_id"/>
     );
   }
 }

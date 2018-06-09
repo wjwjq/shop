@@ -1,5 +1,5 @@
 import { EnthusiasmAction } from '../actions/hello';
-import { INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from '../constants/index';
+import { INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from '../constants/hello';
 
 export interface StoreState {
   languageName: string;
@@ -21,6 +21,6 @@ const handlers = {
   }
 };
 
-export default function(state: StoreState = store, action: EnthusiasmAction): StoreState {
+export default function helloReducers(state: StoreState = store, action: EnthusiasmAction): StoreState {
   return handlers[action.type] ?  handlers[action.type](state) : state;
 }

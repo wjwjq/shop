@@ -1,22 +1,66 @@
 import * as React from 'react';
+import { Button } from 'antd';
+import { bindActionCreators } from 'redux';
+import { connect, Dispatch } from 'react-redux';
 
-import axios from '../lib/axios';
+import * as actions from '../redux/actions/foo';
+import * as FooTypes from '../redux/types/foo';
 
-interface Props {}
+interface IState {
+  foo: FooTypes.IStoreState;
+}
 
-export default class Foo extends React.Component<Props, object> {
+interface IOwnProps {
+  users: FooTypes.TUsers;
+}
 
-  fetch = () => {
-    return axios.all([axios.get('/api/user'), axios.post('/api/user/2', {fs: '123'}), axios.get('/api/user/5b0f8e1afad9ad2d0cc9209a')]);
+interface IDispatchProps {
+  fetchUser(action: any): void;
+}
+
+interface IOwnState {
+  aaa: string;
+}
+
+const mapStateToProps = ({ foo: { users } }: IState, ownProps: IOwnProps): IOwnProps => ({
+  users: users!
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<FooTypes.FetchUserActions>): IDispatchProps => bindActionCreators({
+  fetchUser: actions.fetchUser
+}, dispatch);
+
+class Foo extends React.Component<IOwnProps & IDispatchProps, IOwnState> {
+
+  state = {
+    aaa: 'aaa'
+  };
+
+  public fetch = () => {
+    this.props.fetchUser('12');
   }
 
-  componentDidMount() {
-    this.fetch().then(data => console.log(data));
-  }
-
-  render() {
+  public render() {
+    const { users} = this.props;
     return (
-      <div>Fooaaa</div>
+      <div>
+        {renderUsers(users)}
+        <Button onClick={this.fetch} >加载</Button>
+      </div>
     );
   }
 }
+
+function renderUsers(users: FooTypes.TUsers): React.ReactNodeArray {
+  return users.map((user: FooTypes.IUser) => {
+    return (
+      <li key={user._id || user.id}>
+        <span>{user.name}</span>
+        <span>{user.age}</span>
+        <span>{user.address}</span>
+      </li>
+    );
+  });
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Foo);
