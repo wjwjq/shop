@@ -1,4 +1,5 @@
-import * as constants from '../constants/foo';
+import * as constants from './constants';
+import { Action } from 'redux';
 
 export interface IUser {
   '_id': string | number;
@@ -10,26 +11,26 @@ export interface IUser {
 
 export type TUsers = IUser[];
 
-export interface IStoreState {
+export interface IFooState {
   loading?: boolean;
   fail?: boolean;
   success?: boolean;
   users?: TUsers;
 }
 
-export interface IFetchUser {
+export interface IFetchUser extends Action {
   type: constants.FETCH_USERS;
-  payload: IStoreState;
+  payload: IFooState;
 }
 
-export interface IFetchUserReject {
+export interface IFetchUserReject extends Action {
   type: constants.FETCH_USERS_REJECT;
-  payload: IStoreState;
+  payload: IFooState;
 }
 
-export interface IFetchUserFulfilled {
+export interface IFetchUserFulfilled extends Action {
   type: constants.FETCH_USERS_FULFILLED;
-  payload: IStoreState;
+  payload: IFooState;
 }
 
 export type FetchUserActions = IFetchUser | IFetchUserReject | IFetchUserFulfilled;

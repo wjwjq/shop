@@ -1,10 +1,10 @@
-// import { Action, ActionCreator } from 'redux';
+import { Action, ActionCreator } from 'redux';
 // import { ThunkAction } from 'redux-thunk';
 
 import { Dispatch } from 'react-redux';
 
-import * as constants from '../constants/foo';
-import * as Types from '../types/foo';
+import * as constants from './constants';
+import * as Types from './types';
 
 import { user as UserApi } from '../../lib/api';
 

@@ -3,11 +3,11 @@ import { Button } from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect, Dispatch } from 'react-redux';
 
-import * as actions from '../redux/actions/foo';
-import * as FooTypes from '../redux/types/foo';
+import * as actions from '../store/foo/actions';
+import * as FooTypes from '../store/foo/types';
 
 interface IState {
-  foo: FooTypes.IStoreState;
+  foo: FooTypes.IFooState;
 }
 
 interface IOwnProps {

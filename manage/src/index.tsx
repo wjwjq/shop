@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 
-import store, { history } from './redux/store/index';
+import store, { history } from './store/index';
 import Routes from './routes/index';
 import './assets/styles/index.less';
 const rootEl = document.getElementById('root');
