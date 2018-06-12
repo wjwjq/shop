@@ -1,49 +1,42 @@
 import { Action, ActionCreator } from 'redux';
-// import { ThunkAction } from 'redux-thunk';
+import { ThunkAction } from 'redux-thunk';
 
 import { Dispatch } from 'react-redux';
 
-import * as constants from './constants';
 import * as Types from './types';
-
+import { fooReducers } from './reducers';
 import { user as UserApi } from '../../lib/api';
 
-function fetchUserLoading(): Types.IFetchUser {
-  return {
-    type: constants.FETCH_USERS,
-    payload: {
-      loading: true,
-      fail: false,
-      success: false
-    }
-  };
-}
+const fetchUserLoading: ActionCreator<Types.IFetchUser> = () => ({
+  type: Types.ActionsEnum.FETCH_USERS,
+  payload: {
+    loading: true,
+    fail: false,
+    success: false
+  }
+});
 
-function fetchUserReject(): Types.IFetchUserReject {
-  return {
-    type: constants.FETCH_USERS_REJECT,
-    payload: {
-      loading: false,
-      fail: true,
-      success: false
-    }
-  };
-}
+const fetchUserReject: ActionCreator<Types.IFetchUserReject> = () => ({
+  type: Types.ActionsEnum.FETCH_USERS_REJECT,
+  payload: {
+    loading: false,
+    fail: true,
+    success: false
+  }
+});
 
-function fetchUserFulfilled(users: Types.TUsers): Types.IFetchUserFulfilled {
-  return {
-    type: constants.FETCH_USERS_FULFILLED,
-    payload: {
-      users,
-      loading: true,
-      fail: false,
-      success: true
-    }
-  };
-}
+const fetchUserFulfilled: ActionCreator<Types.IFetchUserFulfilled> = (users: Types.TUsers) => ({
+  type: Types.ActionsEnum.FETCH_USERS_FULFILLED,
+  payload: {
+    users,
+    loading: false,
+    fail: false,
+    success: true
+  }
+});
 
 export function fetchUser() {
-  return async (dispatch: Dispatch<Types.FetchUserActions>): Promise<any> => {
+  return async (dispatch: Dispatch<Types.TFooActions>): Promise<any> => {
     try {
       dispatch(fetchUserLoading());
       const res = await UserApi.get();
@@ -54,3 +47,18 @@ export function fetchUser() {
     }
   };
 }
+
+export const fetchUser2: ThunkAction<fooReducers, Types.IFooState, {}, Types.TFooActions> = () => {
+  return (dispatch: Dispatch<Types.TFooActions>) => {
+    dispatch(fetchUserLoading());
+    UserApi
+      .get()
+      .then(res => res.results)
+      .then(users => {
+        dispatch(fetchUserFulfilled(users));
+      })
+      .catch(() => {
+        dispatch(fetchUserReject());
+      });
+  };
+};

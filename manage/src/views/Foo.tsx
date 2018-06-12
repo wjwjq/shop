@@ -5,10 +5,8 @@ import { connect, Dispatch } from 'react-redux';
 
 import * as actions from '../store/foo/actions';
 import * as FooTypes from '../store/foo/types';
-
-interface IState {
-  foo: FooTypes.IFooState;
-}
+import { ApplicationState } from '../store/reducer';
+import { connectableObservableDescriptor } from 'rxjs/observable/ConnectableObservable';
 
 interface IOwnProps {
   users: FooTypes.TUsers;
@@ -22,11 +20,14 @@ interface IOwnState {
   aaa: string;
 }
 
-const mapStateToProps = ({ foo: { users } }: IState, ownProps: IOwnProps): IOwnProps => ({
-  users: users!
-});
+const mapStateToProps = (state: ApplicationState): IOwnProps => {
+  const { foo: { users } } = state;
+  return ({
+    users: users!
+  });
+};
 
-const mapDispatchToProps = (dispatch: Dispatch<FooTypes.FetchUserActions>): IDispatchProps => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch<FooTypes.TFooActions>): IDispatchProps => bindActionCreators({
   fetchUser: actions.fetchUser
 }, dispatch);
 
@@ -41,7 +42,7 @@ class Foo extends React.Component<IOwnProps & IDispatchProps, IOwnState> {
   }
 
   public render() {
-    const { users} = this.props;
+    const { users } = this.props;
     return (
       <div>
         {renderUsers(users)}

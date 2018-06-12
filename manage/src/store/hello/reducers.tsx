@@ -1,7 +1,6 @@
-import { INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from './constants';
-import { IHelloState, EnthusiasmAction } from './types';
+import { IHelloState, THelloAction, INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from './types';
 
-const store: IHelloState = {
+export const initialState: IHelloState = {
   enthusiasmLevel: 1,
   languageName: 'TypeScript'
 };
@@ -16,6 +15,6 @@ const handlers = {
   }
 };
 
-export default function helloReducers(state: IHelloState = store, action: EnthusiasmAction): IHelloState {
+export default function helloReducers(state: IHelloState = initialState, action: THelloAction): IHelloState {
   return handlers[action.type] ? handlers[action.type](state) : state;
 }

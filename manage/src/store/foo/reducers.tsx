@@ -1,7 +1,6 @@
-import { FETCH_USERS, FETCH_USERS_FULFILLED, FETCH_USERS_REJECT } from './constants';
-import { IFooState, FetchUserActions } from './types';
+import { IFooState, TFooActions, ActionsEnum  } from './types';
 
-const store: IFooState = {
+export const initialState: IFooState = {
   loading: false,
   fail: false,
   success: false,
@@ -9,19 +8,21 @@ const store: IFooState = {
 };
 
 const handlers = {
-  [FETCH_USERS](state: IFooState, payload: IFooState) {
+  [ActionsEnum.FETCH_USERS](state: IFooState, payload: IFooState) {
     return { ...state, ...payload };
   },
 
-  [FETCH_USERS_REJECT](state: IFooState, payload: IFooState) {
+  [ActionsEnum.FETCH_USERS_REJECT](state: IFooState, payload: IFooState) {
     return { ...state, ...payload };
   },
 
-  [FETCH_USERS_FULFILLED](state: IFooState, payload: IFooState) {
+  [ActionsEnum.FETCH_USERS_FULFILLED](state: IFooState, payload: IFooState) {
     return { ...state, ...payload };
   }
 };
 
-export default function fooReducers(state: IFooState = store, action: FetchUserActions): IFooState {
+export default function fooReducers(state: IFooState = initialState, action: TFooActions): IFooState {
   return handlers[action.type] ? handlers[action.type](state, action.payload) : state;
 }
+
+export type fooReducers = typeof fooReducers;

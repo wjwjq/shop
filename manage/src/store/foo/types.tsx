@@ -1,5 +1,10 @@
-import * as constants from './constants';
 import { Action } from 'redux';
+
+export enum ActionsEnum  {
+  FETCH_USERS =  '@@foo/FETCH_USERS',
+  FETCH_USERS_REJECT = '@@foo/FETCH_USERS_REJECT',
+  FETCH_USERS_FULFILLED = '@@foo/FETCH_USERS_FULFILLED'
+}
 
 export interface IUser {
   '_id': string | number;
@@ -19,18 +24,18 @@ export interface IFooState {
 }
 
 export interface IFetchUser extends Action {
-  type: constants.FETCH_USERS;
+  type: ActionsEnum.FETCH_USERS;
   payload: IFooState;
 }
 
 export interface IFetchUserReject extends Action {
-  type: constants.FETCH_USERS_REJECT;
+  type: ActionsEnum.FETCH_USERS_REJECT;
   payload: IFooState;
 }
 
 export interface IFetchUserFulfilled extends Action {
-  type: constants.FETCH_USERS_FULFILLED;
+  type: ActionsEnum.FETCH_USERS_FULFILLED;
   payload: IFooState;
 }
 
-export type FetchUserActions = IFetchUser | IFetchUserReject | IFetchUserFulfilled;
+export type TFooActions = IFetchUser | IFetchUserReject | IFetchUserFulfilled;

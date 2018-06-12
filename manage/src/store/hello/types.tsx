@@ -1,5 +1,10 @@
 import { Action } from 'redux';
-import * as constants from './constants';
+
+export const INCREMENT_ENTHUSIASM = '@@hello/INCREMENT_ENTHUSIASM';
+export type INCREMENT_ENTHUSIASM = typeof INCREMENT_ENTHUSIASM;
+
+export const DECREMENT_ENTHUSIASM = '@@hello/DECREMENT_ENTHUSIASM';
+export type DECREMENT_ENTHUSIASM = typeof DECREMENT_ENTHUSIASM;
 
 export interface IHelloState {
   languageName: string;
@@ -7,11 +12,11 @@ export interface IHelloState {
 }
 
 export interface IncrementEnthusiasm extends Action {
-  type: constants.INCREMENT_ENTHUSIASM;
+  type: INCREMENT_ENTHUSIASM;
 }
 
 export interface DecrementEnthusiasm extends Action {
-  type: constants.DECREMENT_ENTHUSIASM;
+  type: DECREMENT_ENTHUSIASM;
 }
 
-export type EnthusiasmAction = IncrementEnthusiasm | DecrementEnthusiasm;
+export type THelloAction = IncrementEnthusiasm | DecrementEnthusiasm;
