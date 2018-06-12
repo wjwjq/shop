@@ -20,12 +20,9 @@ interface IOwnState {
   aaa: string;
 }
 
-const mapStateToProps = (state: ApplicationState): IOwnProps => {
-  const { foo: { users } } = state;
-  return ({
-    users: users!
-  });
-};
+const mapStateToProps = ({ foo: { users } }: ApplicationState): IOwnProps => ({
+  users: users!
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<FooTypes.TFooActions>): IDispatchProps => bindActionCreators({
   fetchUser: actions.fetchUser
