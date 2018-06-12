@@ -6,7 +6,6 @@ import { connect, Dispatch } from 'react-redux';
 import * as actions from '../store/foo/actions';
 import * as FooTypes from '../store/foo/types';
 import { ApplicationState } from '../store/reducer';
-import { connectableObservableDescriptor } from 'rxjs/observable/ConnectableObservable';
 
 interface IOwnProps {
   users: FooTypes.TUsers;
