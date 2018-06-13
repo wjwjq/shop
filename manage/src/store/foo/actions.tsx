@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'react-redux';
 
 import * as Types from './types';
+import { fooReducers } from './reducers';
 import { user as UserApi } from '../../lib/api';
 
 const fetchUserLoading: ActionCreator<Types.IFetchUser> = () => ({
