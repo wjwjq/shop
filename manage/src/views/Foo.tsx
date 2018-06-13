@@ -24,7 +24,7 @@ const mapStateToProps = ({ foo: { users } }: ApplicationState): IOwnProps => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<FooTypes.TFooActions>): IDispatchProps => bindActionCreators({
-  fetchUser: actions.fetchUser
+  fetchUser: actions.fetchUserAsync
 }, dispatch);
 
 class Foo extends React.Component<IOwnProps & IDispatchProps, IOwnState> {

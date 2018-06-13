@@ -4,7 +4,6 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from 'react-redux';
 
 import * as Types from './types';
-import { fooReducers } from './reducers';
 import { user as UserApi } from '../../lib/api';
 
 const fetchUserLoading: ActionCreator<Types.IFetchUser> = () => ({
@@ -35,8 +34,8 @@ const fetchUserFulfilled: ActionCreator<Types.IFetchUserFulfilled> = (users: Typ
   }
 });
 
-export function fetchUser() {
-  return async (dispatch: Dispatch<Types.TFooActions>): Promise<any> => {
+export const fetchUserAsync: ActionCreator<ThunkAction<Promise<Action>, Types.IFooState, {}, Types.TFooActions>> = () => {
+  return async (dispatch: Dispatch<Types.TFooActions>): Promise<Action> => {
     try {
       dispatch(fetchUserLoading());
       const res = await UserApi.get();
@@ -45,20 +44,5 @@ export function fetchUser() {
     } catch (err) {
       return dispatch(fetchUserReject());
     }
-  };
-}
-
-export const fetchUser2: ThunkAction<fooReducers, Types.IFooState, {}, Types.TFooActions> = () => {
-  return (dispatch: Dispatch<Types.TFooActions>) => {
-    dispatch(fetchUserLoading());
-    UserApi
-      .get()
-      .then(res => res.results)
-      .then(users => {
-        dispatch(fetchUserFulfilled(users));
-      })
-      .catch(() => {
-        dispatch(fetchUserReject());
-      });
   };
 };
