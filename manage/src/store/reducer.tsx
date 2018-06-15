@@ -1,8 +1,8 @@
 import { combineReducers, Dispatch, Reducer } from 'redux';
 import { routerReducer, RouterState } from 'react-router-redux';
 
-import { IFooState, TFooActions } from './foo/types';
-import { IHelloState, THelloAction } from './hello/types';
+import { FooState, FooActions } from './foo/types';
+import { HelloState, HelloAction } from './hello/types';
 
 import helloReducers, { initialState as helloInitialState } from './hello/reducers';
 import fooReducers, { initialState as fooInitialState } from './foo/reducers';
@@ -10,11 +10,11 @@ import fooReducers, { initialState as fooInitialState } from './foo/reducers';
 // The top-level state object
 export interface ApplicationState {
   router: any;
-  foo: IFooState;
-  hello: IHelloState;
+  foo: FooState;
+  hello: HelloState;
 }
 
-export type ApplicationActions = THelloAction | TFooActions;
+export type ApplicationActions = HelloAction | FooActions;
 
 export const ApplicationInitialState = {
   router: {},

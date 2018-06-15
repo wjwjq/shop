@@ -1,12 +1,12 @@
 import { Action } from 'redux';
 
-export enum ActionsEnum  {
+export const enum ActionsEnum  {
   FETCH_USERS =  '@@foo/FETCH_USERS',
   FETCH_USERS_REJECT = '@@foo/FETCH_USERS_REJECT',
   FETCH_USERS_FULFILLED = '@@foo/FETCH_USERS_FULFILLED'
 }
 
-export interface IUser {
+export interface User {
   '_id': string | number;
   id: string | number;
   name: string;
@@ -14,28 +14,30 @@ export interface IUser {
   address: string;
 }
 
-export type TUsers = IUser[];
+export type Users = User[];
 
-export interface IFooState {
+export interface FooState {
   loading?: boolean;
   fail?: boolean;
   success?: boolean;
-  users?: TUsers;
+  users?: Users;
 }
 
-export interface IFetchUser extends Action {
+export interface FetchUser extends Action {
   type: ActionsEnum.FETCH_USERS;
-  payload: IFooState;
+  payload: FooState;
 }
 
-export interface IFetchUserReject extends Action {
+export interface FetchUserReject extends Action {
   type: ActionsEnum.FETCH_USERS_REJECT;
-  payload: IFooState;
+  payload: FooState;
 }
 
-export interface IFetchUserFulfilled extends Action {
+export interface FetchUserFulfilled extends Action {
   type: ActionsEnum.FETCH_USERS_FULFILLED;
-  payload: IFooState;
+  payload: FooState;
 }
 
-export type TFooActions = IFetchUser | IFetchUserReject | IFetchUserFulfilled;
+export type ActionType = ActionsEnum.FETCH_USERS | ActionsEnum.FETCH_USERS_REJECT | ActionsEnum.FETCH_USERS_FULFILLED;
+
+export type FooActions = FetchUser | FetchUserReject | FetchUserFulfilled;

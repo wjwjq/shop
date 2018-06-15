@@ -6,9 +6,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 
 import store, { history } from './store';
-import Routes from './routes/index';
+import Routes from './routes';
 
-import './assets/styles/index.less';
+import './assets/styles';
 
 const rootEl = document.getElementById('root');
 

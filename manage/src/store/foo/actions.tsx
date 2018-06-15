@@ -1,12 +1,12 @@
 import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
-import { Dispatch } from 'react-redux';
+import { ApplicationState } from '../reducer';
 
 import * as Types from './types';
 import { user as UserApi } from '../../lib/api';
 
-const fetchUserLoading: ActionCreator<Types.IFetchUser> = () => ({
+const fetchUserLoading: ActionCreator<Types.FetchUser> = () => ({
   type: Types.ActionsEnum.FETCH_USERS,
   payload: {
     loading: true,
@@ -15,7 +15,7 @@ const fetchUserLoading: ActionCreator<Types.IFetchUser> = () => ({
   }
 });
 
-const fetchUserReject: ActionCreator<Types.IFetchUserReject> = () => ({
+const fetchUserReject: ActionCreator<Types.FetchUserReject> = () => ({
   type: Types.ActionsEnum.FETCH_USERS_REJECT,
   payload: {
     loading: false,
@@ -24,7 +24,7 @@ const fetchUserReject: ActionCreator<Types.IFetchUserReject> = () => ({
   }
 });
 
-const fetchUserFulfilled: ActionCreator<Types.IFetchUserFulfilled> = (users: Types.TUsers) => ({
+const fetchUserFulfilled: ActionCreator<Types.FetchUserFulfilled> = (users: Types.Users) => ({
   type: Types.ActionsEnum.FETCH_USERS_FULFILLED,
   payload: {
     users,
@@ -34,8 +34,14 @@ const fetchUserFulfilled: ActionCreator<Types.IFetchUserFulfilled> = (users: Typ
   }
 });
 
-export const fetchUserAsync: ActionCreator<ThunkAction<Promise<Action>, Types.IFooState, {}, Types.TFooActions>> = () => {
-  return async (dispatch: Dispatch<Types.TFooActions>): Promise<Action> => {
+// async action
+export const fetchUserAsync: ActionCreator<ThunkAction<Promise<Action<Types.ActionType>>, ApplicationState, {}, Types.FooActions>> = () => {
+  return async (dispatch, getState): Promise<Action<Types.ActionType>> => {
+
+    const { foo: { loading }, hello: { languageName } } = getState();
+
+    console.log(loading, languageName);
+
     try {
       dispatch(fetchUserLoading());
       const res = await UserApi.get();

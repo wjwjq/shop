@@ -6,7 +6,7 @@ export type INCREMENT_ENTHUSIASM = typeof INCREMENT_ENTHUSIASM;
 export const DECREMENT_ENTHUSIASM = '@@hello/DECREMENT_ENTHUSIASM';
 export type DECREMENT_ENTHUSIASM = typeof DECREMENT_ENTHUSIASM;
 
-export interface IHelloState {
+export interface HelloState {
   languageName: string;
   enthusiasmLevel: number;
 }
@@ -19,4 +19,4 @@ export interface DecrementEnthusiasm extends Action {
   type: DECREMENT_ENTHUSIASM;
 }
 
-export type THelloAction = IncrementEnthusiasm | DecrementEnthusiasm;
+export type HelloAction = IncrementEnthusiasm | DecrementEnthusiasm;

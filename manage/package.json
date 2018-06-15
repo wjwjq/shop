@@ -2,12 +2,13 @@
   "name": "manage",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.tsx",
+  "types": "./src/index.d.ts",
   "scripts": {
     "start": "npm run dev",
     "dev": "./node_modules/.bin/webpack-dev-server --mode=development --color",
     "build": "./node_modules/.bin/webpack --mode=production --color",
-    "test": "./node_modules/.bin/jest --config jest.config.json"
+    "test": "./node_modules/.bin/jest --config jest.config.json --coverage --env=node"
   },
   "author": "",
   "license": "ISC",

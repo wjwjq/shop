@@ -1,10 +1,10 @@
 import Hello from '../components/Hello';
 import * as actions from '../store/hello/actions';
-import { IHelloState, THelloAction } from '../store/hello/types';
+import { HelloState, HelloAction } from '../store/hello/types';
 import { connect, Dispatch } from 'react-redux';
 
 interface State {
-  hello: IHelloState;
+  hello: HelloState;
 }
 
 export function mapStateToProps({ hello: {enthusiasmLevel, languageName} }: State) {
@@ -14,7 +14,7 @@ export function mapStateToProps({ hello: {enthusiasmLevel, languageName} }: Stat
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch<THelloAction>) {
+export function mapDispatchToProps(dispatch: Dispatch<HelloAction>) {
   return {
     onIncrement: () => dispatch(actions.incrementEnthusiasm()),
     onDecrement: () => dispatch(actions.decrementEnthusiasm())
