@@ -1,14 +1,14 @@
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosPromise, AxiosRequestConfig, AxiosError } from 'axios';
+import { connectableObservableDescriptor } from 'rxjs/observable/ConnectableObservable';
 
-export interface IPostedData {
-  data?: any;
+export interface IPostedData extends AxiosRequestConfig {
   [propName: string]: any;
 }
 
 type TMethod = 'GET' | 'PUT' | 'DELETE' | 'POST';
 
 const instance = axios.create();
-instance.defaults.withCredentials = true;
+instance.defaults.withCredentials = true; // 'includes'
 
 function get(url: string, postedData: IPostedData = {}) {
   return networkCall(instance(url, judgePostedData('GET', postedData)));
@@ -40,6 +40,7 @@ async function networkCall(axiosPromise: AxiosPromise) {
     const response = await axiosPromise;
     const resData = await response.data;
     const { status } = resData;
+
     if (+status === 200) { // 请求成功
       return resData.data;
     } else if (+status === 403) { // 验证失败
@@ -53,41 +54,35 @@ async function networkCall(axiosPromise: AxiosPromise) {
         message: resData.message
       });
     }
+
   } catch (error) { // 请求异常  status !== 200
-    globalAxiosErrorHandler({...error.response, method: error.config.method});
+    globalAxiosErrorHandler(error);
   }
 }
 
 function judgePostedData(method: TMethod, postedData: IPostedData) {
-  if (method === 'DELETE' || method === 'GET') {
-    return {
+  const paramsOrData = (method === 'GET' || method === 'DELETE') ? 'params' : 'data';
+
+  return 'params' in postedData || 'data' in postedData
+    ? {
       method,
-      params: postedData
+      ...postedData
+    }
+    : {
+      method,
+      [paramsOrData]: postedData
     };
-  } else {
-    return 'data' in postedData
-      ? {
-        method,
-        ...postedData
-      }
-      : {
-        method,
-        data: postedData
-      };
-  }
 }
 
-function globalAxiosErrorHandler(errResponse: any) {
+function globalAxiosErrorHandler(error: AxiosError) {
   const host = window.location.origin;
-  const {
-    timestamp,
-    status,
-    statusText,
-    path,
-    method
-  } = errResponse;
+  const { status, statusText } = error.response!;
+  const { method, url } = error.config;
 
-  console.error(`${dateFormat(timestamp)}  ${method.toUpperCase()}: ${host}${path}  ${status} (${statusText})`);
+  const timestamp = Date.now();
+
+  // todos: different dealings;
+  console.error(`${dateFormat(timestamp)}  ${method!.toUpperCase()}: ${host}${url}  ${status} (${statusText})`);
 }
 
 function dateFormat(date: string | number | Date = Date.now()) {

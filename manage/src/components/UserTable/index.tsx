@@ -28,9 +28,6 @@ interface IState {
   pagination: PaginationProps;
   loading: boolean;
   selectedRowKeys: TSelectedRowKeys;
-  ModalText: React.ReactChild;
-  visible: boolean;
-  confirmLoading: boolean;
 }
 
 @CSSModules(styles)
@@ -39,9 +36,6 @@ export default class UserTable extends React.Component<IProps, IState> {
     data: [],
     selectedRowKeys: [],
     loading: false,
-    ModalText: 'Content of the modal',
-    visible: false,
-    confirmLoading: false,
     pagination: {
       pageSize: 10,
       current: 1,
@@ -91,10 +85,14 @@ export default class UserTable extends React.Component<IProps, IState> {
     console.log('add');
   }
 
+  handleModify = () => {
+    console.log('Modify');
+  }
+
   handleDelete = () => {
     Modal.confirm({
-      title: 'Do you want to delete these items?',
-      content: 'When clicked the OK button, this dialog will be closed after 1 second',
+      title: '确认删除？',
+      content: '',
       onOk: () => this.deleteUser(),
       onCancel() {
         console.log('cancel');
@@ -107,6 +105,7 @@ export default class UserTable extends React.Component<IProps, IState> {
       await axios.del(this.props.api!, {
         id: this.state.selectedRowKeys
       });
+      this.showMessage('成功');
       return Promise.resolve;
     } catch (err) {
       this.showMessage(err.message);
@@ -114,47 +113,40 @@ export default class UserTable extends React.Component<IProps, IState> {
     }
   }
 
-  handleModify = () => {
-    console.log('Modify');
+  handleForbidden = () => {
+    Modal.confirm({
+      title: '确认禁用/启用',
+      content: '',
+      onOk: () => this.forbiddenUser(),
+      onCancel() {
+        console.log('cancel');
+      }
+    });
+  }
+
+  forbiddenUser = async () => {
+    try {
+      await axios.del(this.props.api!, {
+        id: this.state.selectedRowKeys
+      });
+      this.showMessage('成功');
+      return Promise.resolve;
+    } catch (err) {
+      this.showMessage(err.message);
+      return Promise.reject;
+    }
   }
 
   showMessage(msg: string, type: string = 'error') {
     message[type](msg);
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true
-    });
-  }
-
-  handleModalOk = () => {
-    this.setState({
-      ModalText: 'The modal will be closed after two seconds',
-      confirmLoading: true
-    });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false
-      });
-    }, 2000);
-  }
-
-  handleModalCancel = () => {
-    console.log('Clicked cancel button');
-    this.setState({
-      visible: false
-    });
-  }
-
   componentDidMount() {
-    console.log(222);
     this.fetch();
   }
 
   render() {
-    const { loading, pagination, data, selectedRowKeys, ModalText, visible, confirmLoading } = this.state;
+    const { loading, pagination, data, selectedRowKeys } = this.state;
 
     const rowSelection = {
       selectedRowKeys,
@@ -188,6 +180,7 @@ export default class UserTable extends React.Component<IProps, IState> {
                 type="primary"
                 icon="edit"
                 onClick={this.handleModify}
+                disabled={selectedRowKeys.length !== 1}
               >
                 修改
               </Button>
@@ -195,9 +188,18 @@ export default class UserTable extends React.Component<IProps, IState> {
                 type="primary"
                 icon="delete"
                 onClick={this.handleDelete}
+                disabled={!selectedRowKeys.length}
               >
                 删除
               </Button>
+              {/* <Button
+                type="primary"
+                icon="delete"
+                onClick={this.handleForbidden}
+                disabled={!selectedRowKeys.length}
+              >
+                禁用/启用
+              </Button> */}
             </ButtonGroup>
           </div>
         </div>
@@ -211,15 +213,6 @@ export default class UserTable extends React.Component<IProps, IState> {
           onChange={this.handleTableChange}
         />
 
-        <Modal
-          title="Title"
-          visible={visible}
-          onOk={this.handleModalOk}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleModalCancel}
-        >
-          <p>{ModalText}</p>
-        </Modal>
       </div>
     );
   }

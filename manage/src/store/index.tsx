@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose, Store } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import promiseMiddleware from 'redux-promise-middleware';
 
 import { History } from 'history';
 import createBrowserHistory from 'history/createBrowserHistory';
@@ -20,7 +19,6 @@ function configureStore( hhistory: History, initialState: ApplicationState): Sto
     middlewares = compose(
       applyMiddleware(
         historyMiddleware,
-        promiseMiddleware(),
         thunkMiddleware,
         createLogger()
       ),
@@ -29,7 +27,6 @@ function configureStore( hhistory: History, initialState: ApplicationState): Sto
   } else {
     middlewares = applyMiddleware(
       historyMiddleware,
-      promiseMiddleware(),
       thunkMiddleware
     );
   }
